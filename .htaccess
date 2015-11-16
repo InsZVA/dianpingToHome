@@ -1,0 +1,4 @@
+<ifmodule mod_rewrite.c>
+RewriteEngine on
+RewriteRule ^interface/([a-zA-Z]+)$ /interface/$1.php [L]
+</ifmodule>

@@ -18,6 +18,7 @@ unset($data['partnerId']);
 unset($data['version']);
 unset($data['serviceId']);
 unset($data['packageId']);
+$data['create_time'] = time();
 $data['status'] = WAIT_FOR_PAY;
 $newId = $model->insert($data);
 if($newId)

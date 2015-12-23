@@ -1,0 +1,22 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: inszva
+ * Date: 15-11-26
+ * Time: 下午3:44
+ * @param $longitude
+ * @param $latitude
+ * @param $cityId
+ * @return bool
+ */
+function checkAddress($longitude,$latitude,$cityId)
+{
+    $circle_center = [2 => ['longitude' => 116.40,'latitude' => 39.90]];
+    $circle_length = [2 => ['longitude' => 0.135,'latitude' => 0.118]];
+    if(!isset($circle_center[$cityId]))return true;
+    if(abs($longitude - $circle_center[$cityId]['longitude']) <= $circle_length[$cityId]['longitude'] &&
+        abs($latitude - $circle_center[$cityId]['latitude']) <= $circle_length[$cityId]['latitude'])
+        return true;
+    else
+        return false;
+}

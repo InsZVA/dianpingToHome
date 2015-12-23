@@ -12,7 +12,7 @@
  * @return string
  */
 $online_mode = true;
-function getSign($param,$appKey = '')
+function getSign($param,$appKey = '760A479C0CF59B42F3B0AA2785FB9C6D')
 {
     ksort($param);  //第一步，将所有请求的数据按字段名进行字段升序排序。
     $str = "";

@@ -9,6 +9,18 @@ session_start();
 if($_POST['password'] == '9f11482b4a0a77ff68d0d87684db1cd6')
 {
     $_SESSION['admin'] = rand();
+    if(count($_POST['cityId'])){
+        $_SESSION['additional_where'] = ' and (';
+        $temp = 0;
+        foreach ($_POST['cityId'] as $v) {
+            if($temp)$_SESSION['additional_where'] .= ' or ';
+            $_SESSION['additional_where'] .= 'cityId = ' . $v;
+            $temp++;
+        }
+        $_SESSION['additional_where'] .= ')';
+    }
+
+
     echo "<script>window.location.replace('$_POST[redirect]');</script>";
 }
 else

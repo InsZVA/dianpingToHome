@@ -48,11 +48,9 @@ $start = ($_GET['page']-1) * $num;
                 <th>操作</th>
             </tr>
             <?php
-            if(isset($_GET['status']))
-                $data = $model->getList(['*'],'`status` = ' . $_GET['status'].$_SESSION['additional_where'],"$start,$num","orderId desc");
-            else
-                $data = $model->getList(['*'],'1=1'.$_SESSION['additional_where'],"$start,$num","orderId desc");
             error_reporting(1);
+            $like = '\'%' . $_GET['w'] . '%\'';
+            $data = $model->getList(['*'],"`cellphone` like $like or `orderId` like $like or `serviceTime` like $like or `serviceAddress` like $like or `houseNumber` like $like","$start,$num","orderId desc");
             foreach($data as $value)
             {
                 $model2 = new Model('product');
@@ -88,8 +86,7 @@ $start = ($_GET['page']-1) * $num;
         </thead>
     </table>
     <?php
-        if(isset($_GET['status']))$allNum = $model->getCount('status = '.$_GET['status'].$_SESSION['additional_where']);
-        else $allNum = $model->getCount('1=1'.$_SESSION['additional_where']);
+        $allNum = $model->getCount("`cellphone` like $like or `orderId` like $like or `serviceTime` like $like or `serviceAddress` like $like or `houseNumber` like $like".$_SESSION['additional_where']);
         $pages = $allNum % $num == 0 ? $allNum / $num:$allNum / $num + 1;
     ?>
     <div class="contain-fluid text-center">
@@ -101,8 +98,7 @@ $start = ($_GET['page']-1) * $num;
 
                     if($i == $_GET['page'])echo
                     "<li class='active' ><a href = '#' > $i <span class='sr-only' > (current)</span ></a ></li >";
-                    elseif (isset($_GET['status']))echo "<li ><a href = 'orderList.php?page=$i&num=$num&status=$_GET[status]' > $i <span class='sr-only' > $i</span ></a ></li >";
-                    else echo "<li ><a href = 'orderList.php?page=$i&num=$num' > $i <span class='sr-only' > $i</span ></a ></li >";
+                    else echo "<li ><a href = 'searchList.php?page=$i&num=$num&w=$_GET[w]' > $i <span class='sr-only' > $i</span ></a ></li >";
                 }
                 ?>
                 <li <?php if($_GET['page'] == (int)$pages)echo 'class="disabled"';?>><a href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>

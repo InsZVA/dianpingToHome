@@ -22,7 +22,7 @@ $data = $model->getList(['*'],'productId = ' . $_GET['productId']);
 $data = $data[0];
 ?>
 <script>
-    var details = [];
+    var details = <?php echo $data['details'];?>;
     var imageUrls = [];
 </script>
 <div class="row">
@@ -67,6 +67,9 @@ $data = $data[0];
 
                 </div>
                 <input name="details" id="details" placeholder="json数据,请勿修改!" class="form-control"  value="<?php echo htmlspecialchars($data['details']);?>">
+                <label for="uploadImage">添加文字(置于顶端)</label>
+                <input id="addTextAhead" class="form-control">
+                <button type="button" onclick="AddTextAhead()">添加文字</button><br/>
                 <label for="uploadImage">添加图片</label>
                 <input type="file" id="uploadImage">
                 <button type="button" onclick="UploadFile()">添加图片</button><br/>
@@ -171,6 +174,16 @@ $data = $data[0];
         details.push({'type':2,'content':text.value});
         var deatilsView = document.getElementById("detailsView");
         deatilsView.innerHTML += '<p>' + text.value + '</p>';
+        var detailsDOM = document.getElementById("details");
+        detailsDOM.value = JSON.stringify(details);
+        text.value = '';
+    }
+    function AddTextAhead() {
+        alert("添加成功!");
+        var text = document.getElementById("addTextAhead");
+        details.unshift({'type':2,'content':text.value});
+        var deatilsView = document.getElementById("detailsView");
+        deatilsView.innerHTML = '<p>' + text.value + '</p>' + deatilsView.innerHTML;
         var detailsDOM = document.getElementById("details");
         detailsDOM.value = JSON.stringify(details);
         text.value = '';

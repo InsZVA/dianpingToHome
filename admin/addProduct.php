@@ -49,6 +49,9 @@ echo file_get_contents('header.html');
                 <label for="latitude">图文详情</label>
                 <div id="detailsView" class=""></div>
                 <input name="details" id="details" placeholder="json数据,请勿修改!" class="form-control" value="">
+                <label for="uploadImage">添加文字(置于顶端)</label>
+                <input id="addTextAhead" class="form-control">
+                <button type="button" onclick="AddTextAhead()">添加文字</button><br/>
                 <label for="uploadImage">添加图片</label>
                 <input type="file" id="uploadImage">
                 <button type="button" onclick="UploadFile()">添加图片</button><br/>
@@ -142,6 +145,16 @@ echo file_get_contents('header.html');
         details.push({'type':2,'content':text.value});
         var deatilsView = document.getElementById("detailsView");
         deatilsView.innerHTML += '<p>' + text.value + '</p>';
+        var detailsDOM = document.getElementById("details");
+        detailsDOM.value = JSON.stringify(details);
+        text.value = '';
+    }
+    function AddTextAhead() {
+        alert("添加成功!");
+        var text = document.getElementById("addTextAhead");
+        details.unshift({'type':2,'content':text.value});
+        var deatilsView = document.getElementById("detailsView");
+        deatilsView.innerHTML = '<p>' + text.value + '</p>' + deatilsView.innerHTML;
         var detailsDOM = document.getElementById("details");
         detailsDOM.value = JSON.stringify(details);
         text.value = '';

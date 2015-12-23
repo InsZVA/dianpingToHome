@@ -10,7 +10,6 @@ require_once("sign.php");
 require_once("checkAddress.php");
 $sign = getSign($_POST);
 if($sign != $_POST['sign']){echo json_encode(['code'=>'10001']);exit (0);}
-{echo json_encode(['code'=>'20001']);exit (0);}
 $accept = [1,3,2,4,7,9,8,16,17,5,11,10,21];
 if($_POST['longitude'] < 0 || $_POST['longitude'] > 180 || $_POST['latitude'] < 0 || $_POST['latitude'] > 90 || (!in_array($_POST['cityId'],$accept))){echo json_encode(['code'=>'20001']);exit (0);}
 if(!checkAddress($_POST['longitude'],$_POST['latitude'],$_POST['cityId'])){echo json_encode(['code'=>'20001']);exit (0);}
@@ -31,12 +30,8 @@ if($count) {
             $time = gmdate("H:i:s",time() + 8 * 3600);
             $times = explode(':',$time);
             $n = $times[0] * 2 + $times[1]/30;
-            $start = 19;
-            if($times[0] < 9)
-            {$str = "00000000000000000000000000";$start = 27;}
-            else
-                $str = "000000000000000000";
-            for($t = $start;$t <= 37;$t++)
+            $str = "000000000000000000";
+            for($t = 19;$t <= 37;$t++)
             {
                 if($t <= $n + 8)
                     $str .= "0";
@@ -46,14 +41,8 @@ if($count) {
             $str .= "00000000000";
             $timeList[] = ['date'=>$date,'timeslot'=>$str];
         }
-        else {
-            $time = gmdate("H:i:s",time() + 8 * 3600);
-            $times = explode(':',$time);
-            $hours = $times[0];
-            if($hours >= 21 && $i == 1)
-                $timeList[] = ['date' => $date, 'timeslot' => '00000000000000000000000000111111111110000000000'];
-            else $timeList[] = ['date' => $date, 'timeslot' => '000000000000000000111111111111111111100000000000'];
-        }
+        else
+        $timeList[] = ['date'=>$date,'timeslot'=>'000000000000000000111111111111111111100000000000'];
     }
     $json = ['code' => '0', 'msg' => 'success', 'body' =>
         ['timeList' => $timeList]
